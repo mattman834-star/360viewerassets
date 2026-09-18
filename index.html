@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>360 Survey Viewer</title>
+
+  <!-- CesiumJS from CDN (replaces Sandcastle's built-in Cesium) -->
+  <script src="https://cdn.jsdelivr.net/npm/cesium@1.145/Build/Cesium/Cesium.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/cesium@1.145/Build/Cesium/Widgets/widgets.css" rel="stylesheet" />
+
+  <style>
+    /* NOTE: the "@import url(../templates/bucket.css);" line from your
+       Sandcastle HTML is Sandcastle-only — leave it OUT. */
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    #view3D {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    #view3D .cesium-viewer { width: 100%; height: 100%; }
+    #panoControls button { padding: 8px 14px; font-size: 14px; cursor: pointer; }
+    #logo {
+      position: fixed; top: 12px; left: 12px; z-index: 1001;
+      width: 220px; max-width: 40vw; height: auto;
+      background: rgba(255,255,255,0.75); padding: 6px 10px;
+      border-radius: 4px; pointer-events: none;
+    }
+    #notes {
+      position: fixed; top: 90px; left: 12px; z-index: 1001;
+      width: 220px; max-width: 40vw;
+      background: rgba(255,255,255,0.75); padding: 6px 10px;
+      border-radius: 4px; font-family: sans-serif; font-size: 12px;
+      color: #000; box-sizing: border-box;
+    }
+    #notes ol { margin: 4px 0 0; padding-left: 18px; }
+    #notes li { margin: 2px 0; }
+    #legend {
+      position: fixed; bottom: 30px; right: 12px; z-index: 1001;
+      background: rgba(0,0,0,0.6); color: #fff; padding: 10px 12px;
+      border-radius: 4px; font-family: sans-serif; font-size: 13px;
+      pointer-events: none;
+    }
+    #legend .legend-row { display: flex; align-items: center; margin: 4px 0; }
+    #legend .legend-line { display: inline-block; width: 28px; height: 0; margin-right: 10px; }
+    #legend .legend-row-line { border-top: 3px solid #fff; }
+    #legend .legend-parcel-line { border-top: 2px solid #00ffff; }
+    #legend .legend-sphere {
+      display: inline-block; width: 14px; height: 14px; margin-right: 10px;
+      border-radius: 50%; background: rgba(0,0,255,0.9);
+      border: 2px solid #fff; box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <div id="view3D"></div>
+
+  <img
+    id="logo"
+    src="https://raw.githubusercontent.com/mattman834-star/360viewerassets/main/ARI%20Logo%20Black%20Text%20Horizontal%20TRANSPARENT%20.png"
+    alt="ARI logo"
+  />
+
+  <div id="notes">
+    <strong>Notes:</strong>
+    <ol>
+      <li>Project is shown in WGS84</li>
+      <li>ROW and Parcel lines obtained from MSB GIS and draped to terrain</li>
+      <li>360 images taken with PolyCam</li>
+    </ol>
+  </div>
+
+  <div id="legend">
+    <div class="legend-row">
+      <span class="legend-line legend-row-line"></span>
+      <span class="legend-text">ROW &amp; Easements</span>
+    </div>
+    <div class="legend-row">
+      <span class="legend-line legend-parcel-line"></span>
+      <span class="legend-text">Parcels</span>
+    </div>
+    <div class="legend-row">
+      <span class="legend-sphere"></span>
+      <span class="legend-text">Surveyed Point</span>
+    </div>
+  </div>
+
+  <!-- Your JavaScript, in a separate file -->
+  <script src="app.js"></script>
+</body>
+</html>
